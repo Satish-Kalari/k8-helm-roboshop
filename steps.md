@@ -1,11 +1,11 @@
   
 # create eks cluster
- cd 1-setup-k8s-cluster 
-    refer 01-Cluster-SettingUp.md
+ cd 000-setup-k8s-cluster 
+    refer 000-setup-k8s-cluster/01-Cluster-SettingUp.md
 
 Before creating statefulset, 
     need to install EBS driver for the storage class to work
-    refer 02-before-statefulset.md
+    refer 000-setup-k8s-cluster/02-before-statefulset.md
     
 # creating namespace
     kubectl apply -f namespace.yaml
@@ -21,7 +21,7 @@ Before creating statefulset,
     docker login
     docker images
 
-# cd k8-helm-roboshop/mongodb
+# cd k8-helm-roboshop/01-mongodb
     helm install mongodb . 
         helm upgrade mongodb .
         helm uninstall mongodb
@@ -33,28 +33,28 @@ Before creating statefulset,
             kubectl describe pod mongodb-0
             kubectl describe pvc mongodb-0
 
-# cd k8-helm-roboshop/redis
+# cd k8-helm-roboshop/02-redis
     helm install redis .
 
-# cd k8-helm-roboshop/mysql
+# cd k8-helm-roboshop/03-mysql
     helm install mysql .
 
-# cd k8-helm-roboshop/rabbitmq
+# cd k8-helm-roboshop/04-rabbitmq
     helm install rabbitmq .
 
-# cd k8-helm-roboshop/catalogue
+# cd k8-helm-roboshop/05-catalogue
     helm install catalogue .
 
-# cd k8-helm-roboshop/user
+# cd k8-helm-roboshop/06-user
     helm install user .
 
-# cd k8-helm-roboshop/cart
+# cd k8-helm-roboshop/07-cart
     helm install cart .
 
-# cd k8-helm-roboshop/payment
+# cd k8-helm-roboshop/08-payment
     helm install payment .
 
-# cd k8-helm-roboshop/shipping
+# cd k8-helm-roboshop/09-shipping
     helm install shipping .
 
 # set up metric server
@@ -66,11 +66,11 @@ Before creating statefulset,
 # add inbound rules in security group for alb [in-aws-console]
     select any node instance -> actions -> security ->click on the security group -> edit inbound rules -> add rule -> all traffic -> source: 0.0.0.0/0
 
-# cd k8-helm-roboshop/web
+# cd k8-helm-roboshop/10-web
     helm install web .
 
 # run apache bench tool [in-workstation]
-    refer 06-apahe-bench.md
+    refer 000-setup-k8s-cluster/06-apahe-bench.md
     sudo yum install httpd-tools -y
     ab -c 1000 -n 100000 -k http://web.roboshop.projoy.store/
 
