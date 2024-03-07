@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    app: shipping
+    project: roboshop
+    tier: app
+spec:
+  type: ClusterIP
+  selector:
+    app: shipping
+    project: roboshop
+    tier: app
+  ports:
+    - name: shipping
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

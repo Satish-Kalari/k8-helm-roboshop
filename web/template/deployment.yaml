@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: roboshop
+  labels:
+    app: web
+    project: roboshop
+    tier: web
+spec:
+  replicas: {{ .Values.deployment.replicas}}
+  selector:
+    matchLabels:
+      app: web
+      project: roboshop
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: web
+        project: roboshop
+        tier: web
+    spec:
+      containers:
+      - name: web
+        image: satishkalari/web:{{ .Values.deployment.imageVersion}}
+        imagePullPolicy: Always
+        resources: 
+        requests:
+          memory: "64Mi"
+          cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"          
+        volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/nginx.conf
+            readOnly: true
+            subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: web-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+

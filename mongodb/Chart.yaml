@@ -1,0 +1,11 @@
+apiVersion: v1
+name: mongodb
+version: 0.0.0 # Version of the Chart
+description: A Helm chart for mongodb Kubernetes
+appVersion: v1 # The version of the app that this contains
+
+# helm install <chart-name> <chart-directory>
+  # ex. helm install mongodb .
+
+# helm upgrade <chart-name> <chart-directory>
+  # ex. helm upgrade mongodb .

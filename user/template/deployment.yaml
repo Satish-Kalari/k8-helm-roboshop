@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    app: user
+    project: roboshop
+    tier: app
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: user
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels:
+        app: user
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+        - name: user
+          image: satishkalari/user:{{ .Values.deployment.imageVersion }}
+          imagePullPolicy: Always
+          resources: 
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+          envFrom:
+            - configMapRef:
+                name: user-config
+---

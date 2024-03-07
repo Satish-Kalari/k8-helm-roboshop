@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart-config
+  namespace: roboshop
+  labels:
+    app: cart
+    project: roboshop
+    tier: app
+data:
+  REDIS_HOST: "redis"
+  CATALOGUE_HOST: "catalogue"
+  Catalogue_PORT: "8080"

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels: # Labels are used to select the Pods and Services
+    app: shipping
+    project: roboshop
+    tier: app
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels: # Select the Pods based on labels to manage the Pods
+      app: shipping
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels: # The labels in Pod template
+        app: shipping
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+        - name: shipping
+          image: "satishkalari/shipping:{{ .Values.deployment.imageVersion }}"
+          imagePullPolicy: Always
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "512Mi"
+              cpu: "300m"
+          envFrom:
+            - configMapRef:
+                name: shipping-config
+          

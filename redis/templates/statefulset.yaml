@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: roboshop
+  labels:
+    app: redis
+    project: roboshop
+    tier: db
+spec:
+  serviceName: "redis"
+  replicas: {{ .Values.StateFulSet.replicas }}
+  selector:
+    matchLabels:
+      app: redis
+      project: roboshop
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: redis
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "ebs-sc"
+        resources:
+          requests:
+            storage: 1Gi

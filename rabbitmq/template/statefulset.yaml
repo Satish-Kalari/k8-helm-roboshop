@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+  namespace: roboshop
+  labels:
+    app: rabbitmq
+    project: roboshop
+    tier: db
+spec:
+  serviceName: "rabbitmq"
+  replicas: {{ .Values.StateFulSet.replicas }}
+  selector:
+    matchLabels:
+      app: rabbitmq
+      project: roboshop
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq
+          imagePullPolicy: Always
+          envFrom:
+          - secretRef:
+              name: rabbitmq-secret                    
+          volumeMounts:
+            - name: rabbitmq-data
+              mountPath: /var/lib/rabbitmq
+  volumeClaimTemplates:
+    - metadata:
+        name: rabbitmq-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "ebs-sc"
+        resources:
+          requests:
+            storage: 2Gi
